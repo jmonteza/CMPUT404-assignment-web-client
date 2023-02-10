@@ -40,3 +40,7 @@ Author URL: https://docs.python.org/ <br />
 Title: urllib.parse <br />
 Resource URI: https://docs.python.org/3/library/urllib.parse.html <br />
 
+Author: 0xInfection
+Author URL: https://stackoverflow.com/users/8961316/0xinfection
+Title: What Does Netloc Mean
+Resource URI: https://stackoverflow.com/a/53993037
