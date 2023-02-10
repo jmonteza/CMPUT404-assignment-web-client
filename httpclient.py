@@ -22,7 +22,10 @@ import sys
 import socket
 import re
 # you may use urllib to encode data appropriately
-import urllib.parse
+# import urllib.parse
+from urllib.parse import urlparse
+
+
 
 def help():
     print("httpclient.py [GET/POST] [URL]\n")
@@ -68,8 +71,59 @@ class HTTPClient(object):
         return buffer.decode('utf-8')
 
     def GET(self, url, args=None):
-        code = 500
+        code = 200
         body = ""
+        url = urlparse(url)
+        hostname = url.hostname
+        port = url.port
+        path = url.path
+
+        if port is None:
+            port = 80
+        
+        if path == "":
+            # print("stringgg")
+            path = '/'
+
+        # print(hostname, port, path)
+
+        # Connect to the server
+        self.connect(hostname, port)
+       
+        # Send the data
+        data = f"""GET {path} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0\r\nConnection: close\r\n\r\n"""
+        # print(data)
+        self.sendall(data)
+
+        response = self.recvall(self.socket)
+
+        # Split between header and body 
+        splits = response.split("\r\n\r\n")
+
+        # for split in splits:
+        #     print(split)
+        #     print("***********")
+
+        headers = splits[0].split("\r\n")
+
+        code = int(headers[0].split()[1])
+
+        body = splits[1]
+
+        # print(headers)
+
+        # print("*********")
+
+        # print(code)
+
+        # print("*********")
+
+        # print(body)
+
+        # self.close()
+        # print(response)
+        # print(response.decode())
+        self.close()
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
