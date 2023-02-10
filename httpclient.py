@@ -191,6 +191,8 @@ class HTTPClient(object):
             # Get the body
             body = self.get_body(splits)
 
+            print(response)
+
         # Close the socket
         try:
             self.close()
@@ -283,6 +285,8 @@ class HTTPClient(object):
 
             # Get the body
             body = self.get_body(splits)
+
+            print(response)
 
         # Close the socket
         try:
