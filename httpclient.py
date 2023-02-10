@@ -85,7 +85,11 @@ class HTTPClient(object):
         # HTTP
         scheme = url.scheme
 
+        # Host
         hostname = url.hostname
+
+        # Host:Port (virtual hosting)
+        netloc = url.netloc
 
         # Port 80
         port = url.port
@@ -130,7 +134,7 @@ class HTTPClient(object):
             print("Connect failed")
 
         # Send the data
-        data = f"""GET {path}{query_string} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36\r\nConnection: close\r\n\r\n"""
+        data = f"""GET {path}{query_string} HTTP/1.1\r\nHost: {netloc}\r\nUser-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36\r\nConnection: close\r\n\r\n"""
 
         # Send the entire buffer
         try:
@@ -165,13 +169,16 @@ class HTTPClient(object):
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
-     
+
         url = urlparse(url)
 
         # HTTP
         scheme = url.scheme
 
         hostname = url.hostname
+
+        # Host:Port (virtual hosting)
+        netloc = url.netloc
 
         # Port 80
         port = url.port
@@ -207,7 +214,7 @@ class HTTPClient(object):
             content_length = 0
 
         # Send the data
-        data = f"""POST {path} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {content_length}\r\nConnection: close\r\n\r\n{request_body}"""
+        data = f"""POST {path} HTTP/1.1\r\nHost: {netloc}\r\nUser-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36\r\nContent-Type: application/x-www-form-urlencoded\r\nContent-Length: {content_length}\r\nConnection: close\r\n\r\n{request_body}"""
 
         # Send the entire buffer
         try:
@@ -226,7 +233,7 @@ class HTTPClient(object):
 
         # Get the headers
         headers = self.get_headers(splits)
-        
+
         # Get status code
         code = self.get_code(headers)
 
