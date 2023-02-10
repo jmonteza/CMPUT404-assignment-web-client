@@ -217,6 +217,9 @@ class HTTPClient(object):
 
         hostname = url.hostname
 
+        # Query
+        query = url.query
+
         # Host:Port (virtual hosting)
         netloc = url.netloc
 
@@ -249,6 +252,9 @@ class HTTPClient(object):
         if args:
             request_body = urlencode(args)
             content_length = len(request_body)
+        elif query:
+            request_body = query
+            content_length = len(query)
         else:
             request_body = ''
             content_length = 0
