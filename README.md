@@ -20,23 +20,23 @@ compatible) http://docs.python.org/2/library/socketserver.html
 
 References
 ========================
-Author: Mozilla
-Author URL: https://developer.mozilla.org/
-Title: Request Header
-Resource URI: https://developer.mozilla.org/en-US/docs/Glossary/Request_header
+Author: Mozilla <br />
+Author URL: https://developer.mozilla.org/  <br />
+Title: Request Header <br />
+Resource URI: https://developer.mozilla.org/en-US/docs/Glossary/Request_header <br />
 
-Author: j-random-hacker
-Author URL: https://stackoverflow.com/users/47984/j-random-hacker
-Title: Separating HTTP Response Body from Header in C
-Resource URI: https://stackoverflow.com/a/4551922
+Author: j-random-hacker <br />
+Author URL: https://stackoverflow.com/users/47984/j-random-hacker <br />
+Title: Separating HTTP Response Body from Header in C <br />
+Resource URI: https://stackoverflow.com/a/4551922 <br />
 
-Author: Adam Smith
-Author URL: https://stackoverflow.com/users/3058609/adam-smith
-Title: How to URL Encode in Python 3
-Resource URI: https://stackoverflow.com/a/40557716
+Author: Adam Smith <br />
+Author URL: https://stackoverflow.com/users/3058609/adam-smith <br />
+Title: How to URL Encode in Python 3 <br />
+Resource URI: https://stackoverflow.com/a/40557716 <br />
 
-Author: Python Software Foundation
-Author URL: https://docs.python.org/
-Title: urllib.parse
-Resource URI: https://docs.python.org/3/library/urllib.parse.html
+Author: Python Software Foundation <br />
+Author URL: https://docs.python.org/ <br />
+Title: urllib.parse <br />
+Resource URI: https://docs.python.org/3/library/urllib.parse.html <br />
 
