@@ -41,8 +41,6 @@
 # Resource URI: https: // docs.python.org/3/library/urllib.parse.html < br / >
 
 
-
-
 import sys
 import socket
 import re
@@ -103,7 +101,6 @@ class HTTPClient(object):
         https://www.google.com/search\?q\=hello\&aqs\=chrome
         ParseResult(scheme='https', netloc='www.google.com', path='/search', params='', query='q=hello&aqs=chrome', fragment='')
         """
-
 
         url = urlparse(url)
 
@@ -209,7 +206,7 @@ class HTTPClient(object):
         https://www.google.com/search\?q\=hello\&aqs\=chrome
         ParseResult(scheme='https', netloc='www.google.com', path='/search', params='', query='q=hello&aqs=chrome', fragment='')
         """
-        
+
         url = urlparse(url)
 
         # HTTP
@@ -252,6 +249,7 @@ class HTTPClient(object):
         if args:
             request_body = urlencode(args)
             content_length = len(request_body)
+        # We'll take the URL query string as the body for the POST
         elif query:
             request_body = query
             content_length = len(query)
@@ -279,7 +277,7 @@ class HTTPClient(object):
             code = None
             body = None
         else:
-        
+
             # Split between header and body
             splits = response.split("\r\n\r\n")
 
