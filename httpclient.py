@@ -18,11 +18,35 @@
 # Write your own HTTP GET and POST
 # The point is to understand what you have to send and get experience with it
 
+# References
+# -----------------------------------------------------------------------------------------
+# Author: Mozilla < br / >
+# Author URL: https: // developer.mozilla.org / <br / >
+# Title: Request Header < br / >
+# Resource URI: https: // developer.mozilla.org/en-US/docs/Glossary/Request_header < br / >
+
+# Author: j-random-hacker < br / >
+# Author URL: https: // stackoverflow.com/users/47984/j-random-hacker < br / >
+# Title: Separating HTTP Response Body from Header in C < br / >
+# Resource URI: https: // stackoverflow.com/a/4551922 < br / >
+
+# Author: Adam Smith < br / >
+# Author URL: https: // stackoverflow.com/users/3058609/adam-smith < br / >
+# Title: How to URL Encode in Python 3 < br / >
+# Resource URI: https: // stackoverflow.com/a/40557716 < br / >
+
+# Author: Python Software Foundation < br / >
+# Author URL: https: // docs.python.org / <br / >
+# Title: urllib.parse < br / >
+# Resource URI: https: // docs.python.org/3/library/urllib.parse.html < br / >
+
+
+
+
 import sys
 import socket
 import re
 # you may use urllib to encode data appropriately
-# import urllib.parse
 from urllib.parse import urlparse, urlencode
 
 
@@ -78,8 +102,9 @@ class HTTPClient(object):
 
         https://www.google.com/search\?q\=hello\&aqs\=chrome
         ParseResult(scheme='https', netloc='www.google.com', path='/search', params='', query='q=hello&aqs=chrome', fragment='')
-
         """
+
+
         url = urlparse(url)
 
         # HTTP
@@ -175,7 +200,14 @@ class HTTPClient(object):
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
+        """
+        https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol\#HTTP/1.1_response_messages
+        ParseResult(scheme='https', netloc='en.wikipedia.org', path='/wiki/Hypertext_Transfer_Protocol', params='', query='', fragment='HTTP/1.1_response_messages')
 
+        https://www.google.com/search\?q\=hello\&aqs\=chrome
+        ParseResult(scheme='https', netloc='www.google.com', path='/search', params='', query='q=hello&aqs=chrome', fragment='')
+        """
+        
         url = urlparse(url)
 
         # HTTP
