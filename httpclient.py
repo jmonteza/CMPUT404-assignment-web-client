@@ -147,18 +147,24 @@ class HTTPClient(object):
             response = self.recvall(self.socket)
         except:
             print("Receive failed")
+            response = None
 
-        # Split between header and body
-        splits = response.split("\r\n\r\n")
+        if response is None:
+            code = None
+            body = None
+        else:
 
-        # Get the headers
-        headers = self.get_headers(splits)
+            # Split between header and body
+            splits = response.split("\r\n\r\n")
 
-        # Get status code
-        code = self.get_code(headers)
+            # Get the headers
+            headers = self.get_headers(splits)
 
-        # Get the body
-        body = self.get_body(splits)
+            # Get status code
+            code = self.get_code(headers)
+
+            # Get the body
+            body = self.get_body(splits)
 
         # Close the socket
         try:
@@ -227,18 +233,24 @@ class HTTPClient(object):
             response = self.recvall(self.socket)
         except:
             print("Receive failed")
+            response = None
 
-        # Split between header and body
-        splits = response.split("\r\n\r\n")
+        if response is None:
+            code = None
+            body = None
+        else:
+        
+            # Split between header and body
+            splits = response.split("\r\n\r\n")
 
-        # Get the headers
-        headers = self.get_headers(splits)
+            # Get the headers
+            headers = self.get_headers(splits)
 
-        # Get status code
-        code = self.get_code(headers)
+            # Get status code
+            code = self.get_code(headers)
 
-        # Get the body
-        body = self.get_body(splits)
+            # Get the body
+            body = self.get_body(splits)
 
         # Close the socket
         try:
