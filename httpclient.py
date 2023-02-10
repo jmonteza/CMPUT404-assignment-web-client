@@ -165,46 +165,81 @@ class HTTPClient(object):
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
-        code = 500
-        body = ""
+        # code = 500
+        # body = ""
 
         url = urlparse(url)
+
+        # HTTP
+        scheme = url.scheme
+
         hostname = url.hostname
+
+        # Port 80
         port = url.port
+
+        # /path
         path = url.path
 
-        print(url, hostname, port, path)
+        # Check for HTTP or HTTPS
+        if scheme != "http" and scheme != "https":
+            scheme = "http"
+            print("You must use HTTP or HTTPS")
+
+        # Default to port 80
+        if port is None:
+            port = 80
+
+        # Path cannot be empty
+        if path == "":
+            path = '/'
 
         # Connect to the server
-        self.connect(hostname, port)
+        try:
+            self.connect(hostname, port)
+        except:
+            print("Connect failed")
 
-        content_length = 0
-        request_body = ''
-
+        # POST has body
         if args:
             request_body = urlencode(args)
             content_length = len(request_body)
+        else:
+            request_body = ''
+            content_length = 0
 
         # Send the data
         data = f"""POST {path} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0\r\nContent-Length: {content_length}\r\nConnection: close\r\n\r\n{request_body}"""
 
-        self.sendall(data)
+        # Send the entire buffer
+        try:
+            self.sendall(data)
+        except:
+            print("Send failed")
 
-        response = self.recvall(self.socket)
-
-        print(response)
+        # Receive the entire buffer
+        try:
+            response = self.recvall(self.socket)
+        except:
+            print("Receive failed")
 
         # Split between header and body
         splits = response.split("\r\n\r\n")
 
+        # Get the headers
         headers = self.get_headers(splits)
-
+        
+        # Get status code
         code = self.get_code(headers)
 
+        # Get the body
         body = self.get_body(splits)
 
-        # print(splits)
-        self.close()
+        # Close the socket
+        try:
+            self.close()
+        except:
+            print("Close socket failed")
 
         return HTTPResponse(code, body)
 
