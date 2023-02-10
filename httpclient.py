@@ -90,6 +90,7 @@ class HTTPClient(object):
         # Port 80
         port = url.port
 
+        # /path
         path = url.path
 
         # Query
@@ -123,10 +124,13 @@ class HTTPClient(object):
             path = '/'
 
         # Connect to the server
-        self.connect(hostname, port)
+        try:
+            self.connect(hostname, port)
+        except:
+            print("Connect failed")
 
         # Send the data
-        data = f"""GET {path}{query_string} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:50.0) Gecko/20100101 Firefox/50.0\r\nConnection: close\r\n\r\n"""
+        data = f"""GET {path}{query_string} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/109.0.0.0 Mobile Safari/537.36\r\nConnection: close\r\n\r\n"""
 
         # Send the entire buffer
         try:
@@ -153,7 +157,10 @@ class HTTPClient(object):
         body = self.get_body(splits)
 
         # Close the socket
-        self.close()
+        try:
+            self.close()
+        except:
+            print("Close socket failed")
 
         return HTTPResponse(code, body)
 
