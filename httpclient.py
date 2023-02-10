@@ -72,9 +72,6 @@ class HTTPClient(object):
         return buffer.decode('utf-8')
 
     def GET(self, url, args=None):
-        code = 200
-        body = ""
-
         """
         https://en.wikipedia.org/wiki/Hypertext_Transfer_Protocol\#HTTP/1.1_response_messages
         ParseResult(scheme='https', netloc='en.wikipedia.org', path='/wiki/Hypertext_Transfer_Protocol', params='', query='', fragment='HTTP/1.1_response_messages')
@@ -87,40 +84,37 @@ class HTTPClient(object):
 
         # HTTP
         scheme = url.scheme
-        
+
         hostname = url.hostname
-        
+
         # Port 80
         port = url.port
-        
+
         path = url.path
-        
-        # Query 
+
+        # Query
         query = url.query
 
         # Params
         params = url.params
 
-        if scheme != "http" or scheme != "https":
+        # Check for HTTP or HTTPS
+        if scheme != "http" and scheme != "https":
             scheme = "http"
             print("You must use HTTP or HTTPS")
 
-        print(url)
-
-        print("netloc", url.netloc)
-        print("hostname", hostname)
-        print(path)
-
-        # Handle query parameters (URL attached and from args parameters)
+        # Handle query string (URL attached and from args parameters)
         if query:
-            # Attached to the URL
-            query_parameters = f"?{query}"
+            # Attached to the URL (ex. search?q=hello)
+            query_string = f"?{query}"
         elif args:
-            # Coming from args dictionary so we encode it
-            query_parameters = f"?{urlencode(args)}"
+            # Coming from the dictionary in args parameter so we URL encode it
+            query_string = f"?{urlencode(args)}"
         else:
-            query_parameters = ""
+            # Empty query string
+            query_string = ""
 
+        # Default to port 80
         if port is None:
             port = 80
 
@@ -128,52 +122,39 @@ class HTTPClient(object):
         if path == "":
             path = '/'
 
-        # print(hostname, port, path)
-
         # Connect to the server
         self.connect(hostname, port)
 
         # Send the data
-        data = f"""GET {path}{query_parameters} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:50.0) Gecko/20100101 Firefox/50.0\r\nConnection: close\r\n\r\n"""
-        print(data)
-        self.sendall(data)
+        data = f"""GET {path}{query_string} HTTP/1.1\r\nHost: {hostname}\r\nUser-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.9; rv:50.0) Gecko/20100101 Firefox/50.0\r\nConnection: close\r\n\r\n"""
 
-        response = self.recvall(self.socket)
+        # Send the entire buffer
+        try:
+            self.sendall(data)
+        except:
+            print("Send failed")
+
+        # Receive the entire buffer
+        try:
+            response = self.recvall(self.socket)
+        except:
+            print("Receive failed")
 
         # Split between header and body
         splits = response.split("\r\n\r\n")
 
-        # for split in splits:
-        #     print(split)
-        #     print("***********")
-
-        # headers = splits[0].split("\r\n")
-
+        # Get the headers
         headers = self.get_headers(splits)
 
-  
-
-        # code = int(headers[0].split()[1])
+        # Get status code
         code = self.get_code(headers)
 
-        # body = splits[1]
-
+        # Get the body
         body = self.get_body(splits)
 
-        print(headers)
-
-        # print("*********")
-
-        # print(code)
-
-        # print("*********")
-
-        # print(body)
-
-        # self.close()
-        # print(response)
-        # print(response.decode())
+        # Close the socket
         self.close()
+
         return HTTPResponse(code, body)
 
     def POST(self, url, args=None):
